@@ -1,0 +1,16 @@
+# AUTO-GENERATED
+
+yarn.lock
+yarn-error.log
+.eslintrc.json
+package.json
+node_modules
+
+# SENSITIVE
+
+token.json
+notes.md
+
+# OPTIONAL
+
+start.sh
