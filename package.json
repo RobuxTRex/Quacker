@@ -1,0 +1,14 @@
+{
+  "name": "quacker-2",
+  "version": "1.0.0",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js && node src/deploy.js && node src/embed.js && echo Quacker is loading!"
+  },
+  "author": "SulphurDev",
+  "license": "MIT",
+  "description": "Quacker 2.0!",
+  "dependencies": {
+    "discord.js": "^14.7.0"
+  }
+}

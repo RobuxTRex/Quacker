@@ -1,0 +1,7 @@
+# CREDENTIALS AND IMPORTANT FILES
+.env
+config.json
+
+# NOT REQUIRED
+
+node_modules
