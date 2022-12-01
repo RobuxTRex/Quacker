@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/bot.js",
   "scripts": {
-    "start": "node src/bot.js && node src/deploy.js && node src/embed.js && echo Quacker is loading!"
+    "start": "node --no-warnings src/deploy.js && node --no-warnings src/interaction.js && node --no-warnings src/bot.js && node --no-warnings src/embed.js && echo Quacker is loading!"
   },
   "author": "SulphurDev",
   "license": "MIT",

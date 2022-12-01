@@ -1,10 +1,11 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js')
+const { pongEmbed } = require('../embed')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('pong')
-        .setDescription('Quacker will reply with pong; generally used as a debugging command.'),
+    .setName('pong')
+    .setDescription('Quack will reply with pong!'),
     async execute(interaction) {
-        await interaction.reply('Pong!')
+        await interaction.reply({ embeds: [pongEmbed], empheral: true })
     }
 }

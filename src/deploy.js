@@ -1,9 +1,17 @@
+// Quacker 2.0
+// SulphurDev
+//
+// deploy.js
+// General handler for deployment of Slash Commands (application commands).
+
+console.log("deploy.js initilised")
+
 const { REST, Routes } = require('discord.js');
-const { clientId, guildId, token } = require('./info.json');
+const { clientID, token } = require('../config.json');
 const fs = require('node:fs');
 
 const commands = [];
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('src/commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -16,8 +24,8 @@ const rest = new REST({ version: '10' }).setToken(token);
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
-		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId),
+		let data = await rest.put(
+			Routes.applicationCommands(clientID),
 			{ body: commands },
 		);
 
