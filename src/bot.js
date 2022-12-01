@@ -57,9 +57,10 @@ client.once(Events.ClientReady, c => {
 
 client.on(Events.InteractionCreate, async interaction => {
     if(!interaction.isChatInputCommand()) return;
-    console.log(interaction);
 
     const command = interaction.client.commands.get(interaction.commandName);
+
+	console.log(`${interaction.user.username} ran command ${command}`);
 
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found.`);
@@ -71,6 +72,18 @@ client.on(Events.InteractionCreate, async interaction => {
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+	}
+})
+
+client.on(Events.InteractionCreate, async interaction => {
+	if(!interaction.isButton()) return;
+
+	const command = interaction.client.interaction.name
+
+	console.log(`${interaction.user.name} clicked the ${command} button`)
+	
+	if(command === 'verify') {
+		console.log("clicked!")
 	}
 })
 

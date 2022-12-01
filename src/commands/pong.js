@@ -6,6 +6,6 @@ module.exports = {
     .setName('pong')
     .setDescription('Quack will reply with pong!'),
     async execute(interaction) {
-        await interaction.reply({ embeds: [pongEmbed], empheral: true })
+        await interaction.reply({ embeds: [pongEmbed], ephemeral: true })
     }
 }
