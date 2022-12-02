@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, Client, GatewayIntentBits } = require('discord.js')
+const { SlashCommandBuilder } = require('discord.js')
 const { memberEmbed } = require('../embed')
 
 module.exports = {

@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "main": "src/bot.js",
   "scripts": {
-    "start": "node --no-warnings src/deploy.js && node --no-warnings src/interaction.js && node --no-warnings src/bot.js && node --no-warnings src/embed.js && echo Quacker is loading!"
+    "start": "node --no-warnings src/deploy.js && node --no-warnings src/interaction.js && node --no-warnings src/dbinit.js && node --no-warnings dbobjects.js && node --no-warnings src/bot.js && node --no-warnings src/embed.js && echo Quacker is loading!"
   },
   "author": "SulphurDev",
   "license": "MIT",
   "description": "Quacker 2.0!",
   "dependencies": {
-    "discord.js": "^14.7.0"
+    "discord.js": "^14.7.0",
+    "dotenv": "^16.0.3",
+    "sequelize": "^6.26.0",
+    "sqlite3": "^5.1.2"
   }
 }

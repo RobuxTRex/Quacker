@@ -4,6 +4,8 @@
 // bot.js
 // Entry point for the bot.
 
+const SequelizeDB = require('sequelize')
+
 console.log("bot.js initilised")
 
 const fs = require('node:fs');
@@ -14,11 +16,20 @@ const { onJoinEmbed } = require('./embed')
 
 const { token } = require('../config.json'); // If you are forking for your own bot, please create YOUR OWN config.json and enter your token in there.
                                              // DO NOT FORGET TO USE .GITIGNORE
+const { database, user, password, port, host } = require('../db.json')
 
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
+const { errorEmbed } = require('./embed')
+
 const client = new Client({ intents: [ GatewayIntentBits.Guilds ]})
+
+const Sequelize = new SequelizeDB(database, user, password, {
+	host: host,
+	dialect: 'mysql',
+	logging: false
+})
 
 client.commands = new Collection();
 
@@ -33,7 +44,7 @@ for (const file of commandFiles) {
 	}
 }
 
-client.on('guildMemberAdd', member => {
+client.on(Events.GuildMemberAdd, member => {
 	let verify = client.guild.roles.find(r => r.id === "1047581450385494026")
 	let memb = member.id
 	let guild = guild.id
@@ -71,7 +82,7 @@ client.on(Events.InteractionCreate, async interaction => {
 		await command.execute(interaction);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		await interaction.editReply({ embeds: [errorEmbed], ephemeral: true })
 	}
 })
 

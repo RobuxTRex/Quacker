@@ -1,7 +1,12 @@
 # CREDENTIALS AND IMPORTANT FILES
+
+.json
 .env
+
+db.json
 config.json
 
 # NOT REQUIRED
 
 node_modules
+notes.md
