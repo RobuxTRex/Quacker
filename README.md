@@ -49,7 +49,7 @@ Wait no further!
 **I should respond generally quickly, unless I am offline (then wait until the next day)**
 **IF you do not recieve a reply, please join Sulphur Support and our moderators will alert me.**
 
-### Socials
+## Socials
 
 Quacker Support - https://www.discord.gg/Qb5yzH56Jz
 
