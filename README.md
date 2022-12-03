@@ -34,7 +34,7 @@ It helps us keep our community engaged, **and allow the community to add feature
 
 Please make a Pull Request to this repository, and I will merge your request (add the feature), decline (I will comment on the Pull request for reasons why), or even make changes (I will also comment on the Pull request with the changes or modifications I have made to the Pull request)
 
-By contributing, you will also get a place in the contributors.md file; importing any suspicious files, code or assets will result in instant denial, as well as being completely ignored when future Pull requests are made with your account, even if they're legitimate!
+By contributing, you agree that mporting any suspicious files, code or assets will result in instant denial, as well as being completely ignored when future Pull requests are made with your account, even if they're legitimate!
 
 ## Demo & Early Access
 
@@ -49,7 +49,7 @@ Wait no further!
 **I should respond generally quickly, unless I am offline (then wait until the next day)**
 **IF you do not recieve a reply, please join Sulphur Support and our moderators will alert me.**
 
-### Socials
+## Socials
 
 Quacker Support - https://www.discord.gg/Qb5yzH56Jz
 
@@ -58,4 +58,5 @@ Discord - Sulphur#1234
 Twitter: https://www.twitter.com/robuxtrex
 
 YouTube: https://www.youtube.com/@RobuxTRex
+
 
