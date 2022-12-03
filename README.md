@@ -34,7 +34,7 @@ It helps us keep our community engaged, **and allow the community to add feature
 
 Please make a Pull Request to this repository, and I will merge your request (add the feature), decline (I will comment on the Pull request for reasons why), or even make changes (I will also comment on the Pull request with the changes or modifications I have made to the Pull request)
 
-By contributing, you will also get a place in the contributors.md file; importing any suspicious files, code or assets will result in instant denial, as well as being completely ignored when future Pull requests are made with your account, even if they're legitimate!
+By contributing, you agree that mporting any suspicious files, code or assets will result in instant denial, as well as being completely ignored when future Pull requests are made with your account, even if they're legitimate!
 
 ## Demo & Early Access
 
