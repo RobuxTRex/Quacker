@@ -1,27 +1,31 @@
-const { Client, SlashCommandBuilder, GatewayIntentBits } = require('discord.js')
+const { SlashCommandBuilder, GatewayIntentBits, channelLink } = require('discord.js')
 const { refreshEmbed, verifyEmbed } = require('../embed') 
 const { verifyInteractions } = require('../interaction')
-
-const client = new Client({ intents: [ GatewayIntentBits.Guilds ]})
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('refresh')
-    .setDescription('Quack will refresh the Verify embed.'),
+    .setDescription('Quack will refresh the Verify embed.')
+    .addChannelOption(option =>
+        option
+            .setName('channel')
+            .setDescription('What channel would you like to refresh the embeds in?')
+            .setRequired(false)
+    ),
     async execute(interaction) {
 
-        const sendChannel = client.channels.cache.get(channel => channel.id === '1047589319545737236')
+        const sendChannel = interaction.options.getChannel('channel') ?? false
+
+        if(sendChannel === false) {
+            await interaction.reply({ embeds: [refreshEmbed], ephemeral: true })
+            await interaction.followUp({ embeds: [verifyEmbed], components: [verifyInteractions] })
+
+            return 1;
+        }
 
         await interaction.reply({ embeds: [refreshEmbed], ephemeral: true })
-        await interaction.followUp({ embeds: [verifyEmbed], components: [verifyInteractions] })
+        sendChannel.send({ embeds: [verifyEmbed], components: [verifyInteractions] })
 
-        async () => {
-            let fetched
-            do {
-                fetched = await channel.fetchMessages({limit: 100})
-                message.channel.bulkDelete(fetched)
-            }
-            while(fetched.size >= 2)
-        };
+        return 1;
     }
 }

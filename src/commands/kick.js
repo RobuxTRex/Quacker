@@ -1,5 +1,6 @@
+// FINISHED!
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
-const { guild } = require('../interaction')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,6 +25,8 @@ module.exports = {
 
         const member = interaction.options.getMember('target')
 
+        let guild = interaction.guild.name
+
         const kickEmbed = new EmbedBuilder()
             .setColor(0x00ff00)
             .setTitle('Kick successful!')
@@ -34,13 +37,23 @@ module.exports = {
                 { name: `Reason:`, value: `${kickReason}` }
             )
             .setTimestamp()
-
+        
         const kickDM = new EmbedBuilder()
             .setColor(0xff0000)
-            .setTitle(`Kicked from ${guild}`)
+            .setTitle(`Uh oh!`)
             .setURL('https://quack.robuxtrex.co.uk/commands/kick')
-            .setDescription(`You have been kicked from ${guild} for reason: ${kickReason}`)
+            .setDescription(`You have been kicked from ${guild}!`)
+            .addFields(
+                { name: 'Server', value: `${guild}` },
+                { name: 'Reason', value: `${kickReason}` },
+                //{ name: 'Moderator', value: `${addModerator}` },
+            )
+            .setTimestamp()
 
+        kickTarget.send({ embeds: [kickDM] }).catch(err => {
+            return console.log(`Could not send kick message to ${kickTarget.name} because ${err}. Kick from ${guild} for reason: ${kickReason}`)
+        })
+        
         await interaction.reply({ embeds: [kickEmbed] })
         await member.kick()
     },

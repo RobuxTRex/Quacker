@@ -3,15 +3,22 @@
   "version": "1.0.0",
   "main": "src/bot.js",
   "scripts": {
-    "start": "node --no-warnings src/deploy.js && node --no-warnings src/interaction.js && node --no-warnings src/dbinit.js && node --no-warnings dbobjects.js && node --no-warnings src/bot.js && node --no-warnings src/embed.js && echo Quacker is loading!"
+    "start": "node --no-warnings src/bot.js && echo Quacker is loading!"
   },
   "author": "SulphurDev",
   "license": "MIT",
   "description": "Quacker 2.0!",
   "dependencies": {
+    "@prisma/client": "^4.7.1",
     "discord.js": "^14.7.0",
     "dotenv": "^16.0.3",
+    "ms": "^2.1.3",
+    "mysql": "^2.18.1",
+    "mysql-database": "^1.3.0",
     "sequelize": "^6.26.0",
     "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "prisma": "^4.7.1"
   }
 }

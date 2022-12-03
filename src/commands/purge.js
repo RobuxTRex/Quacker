@@ -1,18 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+// FINISHED
 
-const embed = new EmbedBuilder()
-    .setColor(0x00f00)
-    .setTitle('Quacker Official Support Server')
-    .setURL('https://quack.robuxtrex.co.uk/commands/support')
-    .setDescription(`Join Quacker Support here:\n\nhttps://discord.gg/Qb5yzH56Jz`)
-
-function deleteMessages(amount) {
-     return new Promise(resolve => {
-        if (amount > 100) throw new Error('You can\'t delete more than 100 messages at a time.');
-        setTimeout(() => resolve('Deleted 100 messages.'), 2000);
-    });
-}
-    
+const { SlashCommandBuilder, EmbedBuilder, channelLink } = require('discord.js')
+const prisma = require('../prisma')
+const wait = require('node:timers/promises').setTimeout 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,10 +28,57 @@ module.exports = {
             )
         ,
     async execute(interaction) {
-        await interaction.reply({ embeds: [embed], ephemeral: true })
 
-        deleteMessages(5)
-        
+        let amount = interaction.options.getNumber('amount')
+        let revert = interaction.options.getBoolean('revert') ?? true
+        let channel = interaction.options.getChannel('channel') ?? interaction.channel
 
+        if(amount > 100) {
+            amount = 100
+        }
+
+        const messages = await channel.bulkDelete(amount)
+
+        for (const message of messages.values()) {
+            let author = message.author.id
+            let guildId = message.guild.id
+
+            if(!message.author.bot) {
+                const level = await prisma.user.upsert({
+                    where: { id: author },
+                    update: {
+                        xp: { decrement: 5 }
+                    },
+                    create: {
+                        id: author,
+                        xp: 0,
+                        guild: guildId,
+                    }
+                })
+                if(level.xp < 0) {
+                    const update = await prisma.user.update({
+                        where: { id: author },
+                        update: {
+                            xp: 0
+                        },
+                        data: {
+                            id: author,
+                            xp: 0,
+                            guild: guildId,
+                        }
+                    })
+                }
+            }
+        }
+
+        const purgeEmbed = new EmbedBuilder()
+            .setColor(0x00ff00)
+            .setTitle('Purge Successful!')
+            .setURL('https://quack.robuxtrex.co.uk/discord/error')
+            .setDescription(`Purged ${amount} in ${channel} (revert xp: ${revert}) successfully!`)
+
+        await interaction.reply({ embeds: [purgeEmbed] })
+        await wait(1000)
+        await interaction.deleteReply()
     }
 }

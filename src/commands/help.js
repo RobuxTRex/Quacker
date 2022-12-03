@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js')
-//const { pageOne, pageTwo } = require('../embed')
+const { pageOne, pageTwo } = require('../embed')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,12 +16,12 @@ module.exports = {
             )
     ),
     async execute(interaction) {
-        const page = interaction.option.getString('page')
+        const page = interaction.options.getString('page')
 
-        //if(page === "page_one" ) {
-        //    await interaction.reply({ embeds: [pageOne] })
-        //} else {
-        //    await interaction.reply({ embeds: [pageTwo] })
-        //}
+        if(page === "page_one" ) {
+            await interaction.reply({ embeds: [pageOne] })
+        } else {
+            await interaction.reply({ embeds: [pageTwo] })
+        }
     }
 }

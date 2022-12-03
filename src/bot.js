@@ -4,32 +4,32 @@
 // bot.js
 // Entry point for the bot.
 
-const SequelizeDB = require('sequelize')
+const prisma = require('./prisma')
 
-console.log("bot.js initilised")
+console.log("bot.js initilised") 
+
+require('./deploy')
+require('./embed')
+require('./interaction')
 
 const fs = require('node:fs');
 const path = require('node:path')
-const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require('discord.js')
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, EmbedBuilder } = require('discord.js')
 
 const { onJoinEmbed } = require('./embed')
 
-const { token } = require('../config.json'); // If you are forking for your own bot, please create YOUR OWN config.json and enter your token in there.
+const { token } = require('../cred/config.json'); // If you are forking for your own bot, please create YOUR OWN config.json and enter your token in there.
                                              // DO NOT FORGET TO USE .GITIGNORE
-const { database, user, password, port, host } = require('../db.json')
+const { database, user, password, port, host } = require('../cred/db.json')
 
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
-const { errorEmbed } = require('./embed')
+const { errorEmbed } = require('./embed');
+const { data } = require('./commands/kick');
+const { channel } = require('node:diagnostics_channel')
 
-const client = new Client({ intents: [ GatewayIntentBits.Guilds ]})
-
-const Sequelize = new SequelizeDB(database, user, password, {
-	host: host,
-	dialect: 'mysql',
-	logging: false
-})
+const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages ]})
 
 client.commands = new Collection();
 
@@ -43,17 +43,6 @@ for (const file of commandFiles) {
 		console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 	}
 }
-
-client.on(Events.GuildMemberAdd, member => {
-	let verify = client.guild.roles.find(r => r.id === "1047581450385494026")
-	let memb = member.id
-	let guild = guild.id
-	member.roles.add(verify)
-
-	if (guild === "1047559461553848431") {
-		memb.send({ embeds: [onJoinEmbed] })
-	}
-})
 
 client.once(Events.ClientReady, c => {
     console.log(`Quacker is now online; logged in as ${c.user.tag}`)
@@ -86,15 +75,81 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 })
 
-client.on(Events.InteractionCreate, async interaction => {
-	if(!interaction.isButton()) return;
+client.on(Events.GuildMemberAdd, async member => {
+    const role = "1047581450385494026"
+    member.roles.add(role)
 
-	const command = interaction.client.interaction.name
+    const memberId = member.id
+	const guildId = member.guildId
 
-	console.log(`${interaction.user.name} clicked the ${command} button`)
-	
-	if(command === 'verify') {
-		console.log("clicked!")
+    const level = await prisma.user.create({
+        data: {
+            id: memberId,
+            xp: 0,
+			guild: guildId,
+        },
+    })
+    }
+
+)
+
+client.on(Events.GuildMemberRemove, async member => {
+	const memberId = member.id
+	const guildId = member.guild.id
+
+		const level = await prisma.user.delete({
+			where: {
+				id: memberId,
+			},
+		})
+	}
+)
+
+client.on(Events.MessageCreate, async message => {
+
+	if(message.author.bot) return;
+
+	const memberId = message.member.id
+	const member = message.member.nickname
+	const guildId = message.guild.id
+
+	const levelChannel = client.channels.cache.get("1048714559537549332")
+
+	const dat = await prisma.user.findUnique({
+		where: { id: memberId },
+	})
+
+	let xp = dat.xp
+    let level = Math.floor(xp/50/50)
+    let nextLevel = level + 1
+    let lastLevelXp = level/1.3
+    let nextLevelXp = level*1.3
+
+	// const newLevel = Math.floor(newXp/50/10)
+
+	const update = await prisma.user.upsert({
+		where: { id: memberId },
+		update: {
+			xp: { increment: 5 }
+		},
+		create: {
+			id: memberId,
+			xp: 0,
+			guild: guildId,
+		}
+	})
+
+	if (xp >= nextLevelXp) {
+		const lvlEmbed = new EmbedBuilder()
+			.setColor(0x00ff00)
+			.setTitle('Level up!')
+			.setURL('https://quack.robuxtrex.co.uk/discord/lvl-up')
+			.setDescription(`Congratulations ${member} for levelling up to **level ${level}**! Run /xp to view the XP stats of yourself or others.`)
+		
+		lastLevelXp  = xp
+		nextLevelXp = lastLevelXp*1.43
+		level = nextLevel
+		levelChannel.send({ embeds: [lvlEmbed] })
 	}
 })
 

@@ -5,14 +5,36 @@
 // General handler for interactions, like buttons or onJoinEvents.
 
 console.log("interaction.js initilised")
+const prisma = require('./prisma')
 
 const { Client, ActionRowBuilder, ButtonBuilder, ButtonStyle, Events, GatewayIntentBits, TextChannel, Collection } = require('discord.js')
+const { token } = require('../cred/config.json')
 const { verifyEmbed } = require('./embed')
 // const { Users, CurrencyShop } = require('./dbObjects.js');
 const { user } = require('./commands/xp')
 
-const client = new Client({ intents: [ GatewayIntentBits.Guilds ]})
+const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers ]})
 const currency = new Collection()
+
+client.on(Events.InteractionCreate, async interaction => {
+    console.log("e")
+	if(!interaction.isButton()) return;
+
+	const command = interaction.customId
+    const member = interaction.member
+
+    console.log(command)
+
+	console.log(`${member} clicked the ${command} button`)
+	
+	if(command === 'verify') {
+		const role = "1047563966559293480"
+        const verify = "1047581450385494026"
+        member.roles.add(role)
+        member.roles.remove(verify)
+        interaction.deferUpdate()
+	}
+})
 
 async function addXP(id, amount) {
 	const user = currency.get(id);
@@ -51,11 +73,11 @@ const verifyInteractions = new ActionRowBuilder()
             .setURL("https://quack.robuxtrex.co.uk/discord/verify")
     )
 
-client.on(Events.ClientReady, async client => {
-    const storedBalances = await Users.findAll();
-	storedBalances.forEach(b => currency.set(b.user_id, b));
-    ( client.channels.cache.get('1047589319545737236')).send('Hello here!')
-})
+//client.on(Events.ClientReady, async client => {
+//    const storedBalances = await Users.findAll();
+//	storedBalances.forEach(b => currency.set(b.user_id, b));
+//    ( client.channels.cache.get('1047589319545737236')).send('Hello here!')
+//})
 
 
 client.on(Events.MessageCreate, message => {
@@ -81,3 +103,5 @@ module.exports = {
     nextLevel: nextLVL,
     nextReward,
 }
+
+client.login(token)

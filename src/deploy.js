@@ -7,7 +7,7 @@
 console.log("deploy.js initilised")
 
 const { REST, Routes } = require('discord.js');
-const { clientID, token } = require('../config.json');
+const { clientID, token } = require('../cred/config.json');
 const fs = require('node:fs');
 
 const commands = [];

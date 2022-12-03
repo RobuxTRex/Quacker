@@ -7,13 +7,6 @@
 console.log("embed.js initilised")
 
 const { EmbedBuilder } = require('discord.js')
-const { guild } = require('./interaction')
-
-const memberEmbed = new EmbedBuilder()
-    .setColor(0x00ff00)
-    .setTitle('Server member count:')
-    .setURL('https://quack.robuxtrex.co.uk/commands/member-count')
-    .setDescription(`${guild}`)
 
 const quackEmbed = new EmbedBuilder()
 	.setColor(0x00ff00)
@@ -44,9 +37,9 @@ const onJoinEmbed = new EmbedBuilder()
     .setTitle('Thank you for joining Quacker Support!')
     .setURL('https://quack.robuxtrex.co.uk/discord/join-dm')
     .setDescription('Here at Quacker Support, you can get support for the Quacker bot, as well as joining or starting general conversations about it - you can even get tips for your own Discord bot!')
-    .setFields(
+    .addFields(
         { name: 'I did not join Quacker Support', value: 'If you did not join Quacker Support, please join it (run /support) and report it so we can fix the issue - we apoligise for any inconvenience!'}
-)
+    )
 
 const errorEmbed = new EmbedBuilder()
     .setColor(0xff0000)
@@ -59,19 +52,20 @@ const supportEmbed = new EmbedBuilder()
     .setTitle('Quacker Official Support Server')
     .setURL('https://quack.robuxtrex.co.uk/commands/support')
     .setDescription(`Join Quacker Support here:\n\nhttps://discord.gg/Qb5yzH56Jz`)
-//const helpPageOne = new EmbedBuilder()
-//    .setColor(0x00ff00)
-//    .setTitle('Quacker Help - Page 1')
-//    .setURL('https://quack.robuxtrex.co.uk/commands/help')
-//    .setDescription('Here at Quacker Support, you can get support for the Quacker bot, as well as joining or starting general conversations about it - you can even get tips for your own Discord bot!')
-//    .setFields(
-//        { name: '/help', value: 'Help is a command that shows you every single command, with a detailed description.' },
-//        { name: '/kick', value: 'Kick a target member from your Discord server with an optional reason field.' },
-//        { name: '/members', value: 'Find the member count of your Discord server!' },
-//        { name: '/pong', value: 'Quacker will say pong... that\'s it!' },
-//        { name: '/purge', value: 'Mass delete messages from a particular channel.' },
-//        { value: 'You can also view our well-documented website by clicking the blue text when running a command!' }
-//   ) 
+const helpPageOne = new EmbedBuilder()
+    .setColor(0x00ff00)
+    .setTitle('Quacker Help - Page 1')
+    .setURL('https://quack.robuxtrex.co.uk/commands/help')
+    .setDescription('Quacker\'s official /help command - page 1!\n---\n')
+    .addFields(
+        { name: '/help', value: 'Help is a command that shows you every single command, with a detailed description.' },
+        { name: '/kick', value: 'Kick a target member from your Discord server with an optional reason field.' },
+        { name: '/members', value: 'Find the member count of your Discord server!' },
+        { name: '/pong', value: 'Quacker will say pong... that\'s it!' },
+        { name: '/purge', value: 'Mass delete messages from a particular channel.\n---\n' },
+        { name: 'PRO TIP', value: 'You can also view our well-documented website by clicking the blue text when running a command!\n---\n' },
+        { name: 'Quack Portal', value: '[**Website**](https://quack.robuxtrex.co.uk) | [**Add to Server**](https://discord.com/api/oauth2/authorize?client_id=951553270936137749&permissions=8&scope=bot) | [**Support Us**](https://quack.robuxtrex.co.uk/support)' },
+   ) 
 
 module.exports = {
     quackEmbed,
@@ -81,8 +75,7 @@ module.exports = {
     onJoinEmbed,
     errorEmbed,
     supportEmbed,
-    memberEmbed,
-    // pageOne: helpPageOne,
+    pageOne: helpPageOne,
 
 
 }
