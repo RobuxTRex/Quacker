@@ -17,7 +17,7 @@ const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBi
 const currency = new Collection()
 
 client.on(Events.InteractionCreate, async interaction => {
-    console.log("e")
+
 	if(!interaction.isButton()) return;
 
 	const command = interaction.customId
@@ -36,31 +36,6 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 })
 
-async function addXP(id, amount) {
-	const user = currency.get(id);
-
-	if (user) {
-		user.balance += Number(amount);
-		return user.save();
-	}
-
-	const newUser = await Users.create({ user_id: id, balance: amount });
-	currency.set(id, newUser);
-
-	return newUser;
-}
-
-function getXP(id) {
-	const user = currency.get(id);
-	return user ? user.balance : 0;
-}
-
-const userLVL = Math.floor(getXP(user)/50/10) // DEFAULT FORMULA: xp/50/10
-const nextLVL = userLVL+1
-const nextReward = null
-// TODO: add Reward Roles & Requirements to dashboard, save in database. Then retrieve the data here and set nextReward to the next reward's role (and how many levels to go in 2nd field)
-// TODO: make the XP Formula changeable
-
 const verifyInteractions = new ActionRowBuilder()
     .addComponents(
         new ButtonBuilder()
@@ -72,13 +47,6 @@ const verifyInteractions = new ActionRowBuilder()
             .setStyle(ButtonStyle.Link)
             .setURL("https://quack.robuxtrex.co.uk/discord/verify")
     )
-
-//client.on(Events.ClientReady, async client => {
-//    const storedBalances = await Users.findAll();
-//	storedBalances.forEach(b => currency.set(b.user_id, b));
-//    ( client.channels.cache.get('1047589319545737236')).send('Hello here!')
-//})
-
 
 client.on(Events.MessageCreate, message => {
 
@@ -94,14 +62,5 @@ client.on(Events.MessageCreate, message => {
     module.exports = guild
     console.log(guild)
 })
-
-module.exports = {
-    verifyInteractions,
-    addXP,
-    getXP,
-    level: userLVL,
-    nextLevel: nextLVL,
-    nextReward,
-}
 
 client.login(token)

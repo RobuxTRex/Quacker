@@ -78,6 +78,7 @@ client.on(Events.InteractionCreate, async interaction => {
 client.on(Events.GuildMemberAdd, async member => {
     const role = "1047581450385494026"
     member.roles.add(role)
+	console.log(role)
 
     const memberId = member.id
 	const guildId = member.guildId
@@ -105,12 +106,16 @@ client.on(Events.GuildMemberRemove, async member => {
 	}
 )
 
-client.on(Events.MessageCreate, async message => {
+async function onLevelUp(xp, level) {
+	let nextLevel = level + 1
+	let nextLevelXP = level 
+}
 
+client.on(Events.MessageCreate, async message => {
 	if(message.author.bot) return;
 
 	const memberId = message.member.id
-	const member = message.member.nickname
+	const member = message.member.name
 	const guildId = message.guild.id
 
 	const levelChannel = client.channels.cache.get("1048714559537549332")
@@ -120,7 +125,7 @@ client.on(Events.MessageCreate, async message => {
 	})
 
 	let xp = dat.xp
-    let level = Math.floor(xp/50/50)
+    let level = Math.floor(xp/500)
     let nextLevel = level + 1
     let lastLevelXp = level/1.3
     let nextLevelXp = level*1.3
@@ -139,16 +144,15 @@ client.on(Events.MessageCreate, async message => {
 		}
 	})
 
-	if (xp >= nextLevelXp) {
+	const newLevel = Math.floor((xp + 5)/500)
+
+	if (newLevel > level) {
 		const lvlEmbed = new EmbedBuilder()
 			.setColor(0x00ff00)
 			.setTitle('Level up!')
 			.setURL('https://quack.robuxtrex.co.uk/discord/lvl-up')
 			.setDescription(`Congratulations ${member} for levelling up to **level ${level}**! Run /xp to view the XP stats of yourself or others.`)
-		
-		lastLevelXp  = xp
-		nextLevelXp = lastLevelXp*1.43
-		level = nextLevel
+		console.log(level)
 		levelChannel.send({ embeds: [lvlEmbed] })
 	}
 })

@@ -47,7 +47,7 @@ module.exports = {
             .setColor(0x00ff00)
             .setTitle(`XP Progression`)
             .setURL('https://quack.robuxtrex.co.uk/commands/level')
-            .setDescription(`User ${targetUser}'s level is ${level} and XP is ${xp} and needs ${levelDifference} more XP to level-up!`)
+            .setDescription(`User ${targetUser}'s level is ${level}, XP is ${xp} and needs ${levelDifference} more XP to level-up!`)
             .addFields(
                 { name: `Progress`, value: `${xp}/${nextLevelXp}`, inline: true },
                 { name: `Level`, value: `${level}` },
