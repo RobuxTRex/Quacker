@@ -28,7 +28,7 @@ module.exports = {
         const targetUser = interaction.options.getUser('target')
         const banReason = interaction.options.getString('reason') ?? 'No reason provided.'
         const banDuration = interaction.options.getString('duration') ?? '69 years'
-        const duration = ms(banDuration)
+        const punDuration = ms(banDuration, { long: true } )
 
         let guild = interaction.guild.name
 
@@ -55,6 +55,6 @@ module.exports = {
         })
             
         await interaction.reply({ embeds: [banEmbed] })
-        await targetUser.ban()
+        await targetUser.ban({ duration: punDuration, reason: banReason })
     }
 }
