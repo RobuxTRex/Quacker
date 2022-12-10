@@ -125,13 +125,11 @@ client.on(Events.MessageCreate, async message => {
 	})
 
 	let xp = dat.xp
-    let level = Math.floor(xp/500)
-    let nextLevel = level + 1
-    let lastLevelXp = level/1.3
-    let nextLevelXp = level*1.3
+	let divide = xp/500
+	let level = Math.floor(xp/500)
+	let currentGoal = Math.random(0,1)
 
-	// const newLevel = Math.floor(newXp/50/10)
-
+	/*
 	const update = await prisma.user.upsert({
 		where: { id: memberId },
 		update: {
@@ -143,6 +141,7 @@ client.on(Events.MessageCreate, async message => {
 			guild: guildId,
 		}
 	})
+	*/
 
 	const newLevel = Math.floor((xp + 5)/500)
 
