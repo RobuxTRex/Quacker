@@ -90,9 +90,7 @@ client.on(Events.GuildMemberAdd, async member => {
 			guild: guildId,
         },
     })
-    }
-
-)
+})
 
 client.on(Events.GuildMemberRemove, async member => {
 	const memberId = member.id

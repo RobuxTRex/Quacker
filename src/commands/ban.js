@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const prisma = require('../prisma')
 const ms = require('ms')
 
 module.exports = {
@@ -31,6 +32,11 @@ module.exports = {
         const punDuration = ms(banDuration, { long: true } )
 
         let guild = interaction.guild.name
+
+        const ban = await prisma.user.create({
+            where: { id: targetUser.id },
+            
+        })
 
         const banEmbed = new EmbedBuilder()
             .setColor(0x00ff00)
