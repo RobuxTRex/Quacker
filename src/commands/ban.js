@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
 const prisma = require('../prisma')
 const ms = require('ms')
 
@@ -23,7 +23,8 @@ module.exports = {
             .setName('duration')
             .setDescription("The duration of the ban in seconds.")
             .setRequired(false)    
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
     async execute(interaction) {
 
         const targetUser = interaction.options.getUser('target')

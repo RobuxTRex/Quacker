@@ -1,6 +1,6 @@
 // FINISHED
 
-const { SlashCommandBuilder, EmbedBuilder, channelLink } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
 const prisma = require('../prisma')
 const wait = require('node:timers/promises').setTimeout 
 
@@ -25,8 +25,8 @@ module.exports = {
                 .setName('channel')
                 .setDescription('Select the target channel for the purge.')
                 .setRequired(false)
-            )
-        ,
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     async execute(interaction) {
 
         let amount = interaction.options.getNumber('amount')

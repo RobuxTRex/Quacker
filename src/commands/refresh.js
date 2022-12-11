@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, GatewayIntentBits, channelLink } = require('discord.js')
+const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js')
 const { refreshEmbed, verifyEmbed } = require('../embed') 
 const { verifyInteractions } = require('../interaction')
 
@@ -11,7 +11,8 @@ module.exports = {
             .setName('channel')
             .setDescription('What channel would you like to refresh the embeds in?')
             .setRequired(false)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction) {
 
         const sendChannel = interaction.options.getChannel('channel') ?? false

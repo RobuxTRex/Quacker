@@ -23,5 +23,6 @@ module.exports = {
         } else {
             await interaction.reply({ embeds: [pageTwo] })
         }
+        console.log("test")
     }
 }

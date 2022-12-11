@@ -1,6 +1,6 @@
 // FINISHED!
 
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,7 +17,8 @@ module.exports = {
             .setName('reason')
             .setDescription('The reason for the given punishment.')
             .setRequired(false)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
     async execute(interaction) {
 
         let kickTarget = interaction.options.getUser('target')

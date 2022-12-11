@@ -3,8 +3,8 @@
 .json
 .env
 
-db.json
-config.json
+cred/db.json
+cred/config.json
 
 # NOT REQUIRED
 

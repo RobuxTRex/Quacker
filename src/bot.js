@@ -29,7 +29,7 @@ const { errorEmbed } = require('./embed');
 const { data } = require('./commands/kick');
 const { channel } = require('node:diagnostics_channel')
 
-const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages ]})
+const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers ]})
 
 client.commands = new Collection();
 
@@ -81,7 +81,7 @@ client.on(Events.GuildMemberAdd, async member => {
 	console.log(role)
 
     const memberId = member.id
-	const guildId = member.guildId
+	const guildId = member.guild.id
 
     const level = await prisma.user.create({
         data: {
@@ -90,6 +90,8 @@ client.on(Events.GuildMemberAdd, async member => {
 			guild: guildId,
         },
     })
+
+	console.log("New member! OMG!")
 })
 
 client.on(Events.GuildMemberRemove, async member => {
@@ -101,14 +103,15 @@ client.on(Events.GuildMemberRemove, async member => {
 				id: memberId,
 			},
 		})
-	}
+	},
+	console.log("Help")
 )
 
 async function onLevelUp(xp, level) {
 	let nextLevel = level + 1
 	let nextLevelXP = level 
 }
-
+/*
 client.on(Events.MessageCreate, async message => {
 	if(message.author.bot) return;
 
@@ -122,12 +125,14 @@ client.on(Events.MessageCreate, async message => {
 		where: { id: memberId },
 	})
 
-	let xp = dat.xp
-	let divide = xp/500
-	let level = Math.floor(xp/500)
-	let currentGoal = Math.random(0,1)
+	
 
-	/*
+	let userXP = dat.xp
+	let incremAmnt = 5
+	let level = Math.floor((userXP/1.25)/500, 1)
+	let currLvlXP = (userXP*1.25)*500
+	let nextLvlXP = 1
+
 	const update = await prisma.user.upsert({
 		where: { id: memberId },
 		update: {
@@ -139,7 +144,6 @@ client.on(Events.MessageCreate, async message => {
 			guild: guildId,
 		}
 	})
-	*/
 
 	const newLevel = Math.floor((xp + 5)/500)
 
@@ -153,5 +157,6 @@ client.on(Events.MessageCreate, async message => {
 		levelChannel.send({ embeds: [lvlEmbed] })
 	}
 })
+*/
 
 client.login(token)
